@@ -5,6 +5,9 @@ const cors = require("cors");
 const app = express();
 require('dotenv').config();
 
+app.use(cors());
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
@@ -16,9 +19,6 @@ mongoose
     console.error("MongoDBConnection Error:", error.message);
     process.exit(1);
   });
-
-app.use(cors());
-app.use(express.json());
 
 const saveRecord = require('./API/save_record');
 
