@@ -4,15 +4,22 @@ const User = require("../models/User");
 router.post("/register", async (req, res) => {
   try {
     const { username, password } = req.body;
-    
+
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username and password are required" });
+    }
+
     const existingUser = await User.findOne({ username });
-    if (existingUser) return res.status(400).json({ message: "Username taken" });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
     const newUser = new User({ username, password });
     await newUser.save();
-    res.status(201).json({ message: "User registered successfully!" });
+
+    res.status(201).json({ message: "Registration successful!" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
