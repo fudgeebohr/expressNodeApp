@@ -3,13 +3,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
+require('dotenv').config();
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
 mongoose
-  .connect("mongodb+srv://dev_Fudge:Mahalangbigas.45@expressnodedb.xcpmyu2.mongodb.net/PayoffTracker")
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((error) => {
     console.error("MongoDBConnection Error:", error.message);
@@ -23,7 +24,4 @@ const saveRecord = require('./API/save_record');
 
 app.use("/save_record", saveRecord);
 
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 5000;
