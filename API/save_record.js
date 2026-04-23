@@ -68,4 +68,23 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
+router.put("/archive/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // We use findByIdAndUpdate to specifically set archived to true
+    const archivedRecord = await Record.findByIdAndUpdate(
+      id,
+      { archived: true },
+      { new: true }
+    );
+
+    if (!archivedRecord) return res.status(404).json({ message: "Record not found" });
+
+    res.json({ message: "Record archived successfully", data: archivedRecord });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
