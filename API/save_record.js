@@ -81,7 +81,7 @@ router.put("/archive/:id", async (req, res) => {
 
     if (!archivedRecord) return res.status(404).json({ message: "Record not found" });
 
-    res.json({ message: "Record archived successfully", data: archivedRecord });
+    res.json({ message: "Record deleted successfully", data: archivedRecord });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
