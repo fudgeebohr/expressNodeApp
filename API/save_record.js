@@ -48,4 +48,24 @@ router.put("/pay/:id", async (req, res) => {
   }
 });
 
+router.put("/update/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    // findByIdAndUpdate is the most efficient way to update a document in Mongoose
+    const updatedRecord = await Tracker.findByIdAndUpdate(
+      id, 
+      updatedData, 
+      { new: true } // This option returns the modified document rather than the original
+    );
+
+    if (!updatedRecord) return res.status(404).json({ message: "Record not found" });
+
+    res.json(updatedRecord);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
