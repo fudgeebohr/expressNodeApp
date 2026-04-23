@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Tracker = require("../models/Tracker");
+const mongoose = require("mongoose");
 
 router.get("/", async (req, res) => {
     try {
@@ -72,18 +73,23 @@ router.put("/archive/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    // We use findByIdAndUpdate to specifically set archived to true
-    const archivedRecord = await Record.findByIdAndUpdate(
-      id,
-      { archived: true },
-      { new: true }
-    );
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid ID format" });
+    }
 
-    if (!archivedRecord) return res.status(404).json({ message: "Record not found" });
+    const record = await Tracker.findById(id);
 
-    res.json({ message: "Record deleted successfully", data: archivedRecord });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    if (!record) {
+      return res.status(404).json({ message: "Record not found" });
+    }
+
+    record.archived = true;
+    await record.save();
+
+    res.json({ message: "Record deleted successfully" });
+  } catch (error) {
+    console.error("Delete error:", error); 
+    res.status(500).json({ message: "Server error" });
   }
 });
 
