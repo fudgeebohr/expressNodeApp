@@ -28,4 +28,24 @@ router.post("/", async (req, res) => {
 
 });
 
+router.put("/pay/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const record = await Tracker.findById(id);
+    if (!record) return res.status(404).json({ message: "Record not found" });
+
+    record.paidMonths += 1;
+
+    if (record.paidMonths >= record.totalMonths) {
+      record.archived = true;
+    }
+
+    const updatedRecord = await record.save();
+    res.json(updatedRecord);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

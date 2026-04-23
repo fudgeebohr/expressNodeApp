@@ -15,6 +15,7 @@ const TrackerSchema = new mongoose.Schema({
     enum: ['Kenneth', 'Joy', 'Shane', 'Group (Thesis)'], 
     default: 'Kenneth' 
   },
+  archived: { type: Boolean, default: false },
   dateCreated: { type: Date, default: Date.now }
 });
 
