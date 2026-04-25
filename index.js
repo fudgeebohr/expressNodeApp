@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const authRoutes = require('./API/auth');
 require('dotenv').config();
+const optionsRoute = require("./API/options");
 
 const app = express();
 
@@ -21,14 +22,12 @@ mongoose
   });
 
 const saveRecord = require('./API/save_record');
-const optionsRoute = require("./API/options");
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
 app.use("/save_record", saveRecord);
-app.use("/options", optionsRoute);
 
 const PORT = process.env.PORT || 5000; 
 app.listen(PORT, '0.0.0.0', () => {

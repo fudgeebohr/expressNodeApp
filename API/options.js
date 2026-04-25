@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Payer, Platform } = require("../models/Options");
 
-// GET all options
+// GET routes
 router.get("/payers", async (req, res) => {
     try { res.json(await Payer.find()); } catch (err) { res.status(500).json(err); }
 });
@@ -11,7 +11,7 @@ router.get("/platforms", async (req, res) => {
     try { res.json(await Platform.find()); } catch (err) { res.status(500).json(err); }
 });
 
-// POST new options
+// POST routes
 router.post("/payers", async (req, res) => {
     try {
         const newPayer = new Payer({ name: req.body.name });
