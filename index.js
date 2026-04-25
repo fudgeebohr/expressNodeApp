@@ -35,7 +35,7 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 const router = require("express").Router();
-const { Payer, Platform } = require("../models/Options");
+const { Payer, Platform } = require("./models/Options");
 
 // Payers
 router.get("/payers", async (req, res) => res.json(await Payer.find()));
