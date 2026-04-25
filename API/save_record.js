@@ -69,27 +69,19 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.put("/archive/:id", async (req, res) => {
+router.put("/archive/:id", async (req, res) => { 
   try {
     const { id } = req.params;
+    const archivedRecord = await Tracker.findByIdAndUpdate(
+      id,
+      { archived: true },
+      { new: true }
+    );
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "Invalid ID format" });
-    }
-
-    const record = await Tracker.findById(id);
-
-    if (!record) {
-      return res.status(404).json({ message: "Record not found" });
-    }
-
-    record.archived = true;
-    await record.save();
-
-    res.json({ message: "Record deleted successfully" });
-  } catch (error) {
-    console.error("Delete error:", error); 
-    res.status(500).json({ message: "Server error" });
+    if (!archivedRecord) return res.status(404).json({ message: "Record not found" });
+    res.json({ message: "Record deleted successfully", data: archivedRecord });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
