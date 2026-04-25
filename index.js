@@ -31,3 +31,24 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+const router = require("express").Router();
+const { Payer, Platform } = require("../models/Options");
+
+// Payers
+router.get("/payers", async (req, res) => res.json(await Payer.find()));
+router.post("/payers", async (req, res) => {
+    const newPayer = new Payer({ name: req.body.name });
+    await newPayer.save();
+    res.json(newPayer);
+});
+
+// Platforms
+router.get("/platforms", async (req, res) => res.json(await Platform.find()));
+router.post("/platforms", async (req, res) => {
+    const newPlatform = new Platform({ name: req.body.name });
+    await newPlatform.save();
+    res.json(newPlatform);
+});
+
+module.exports = router;
