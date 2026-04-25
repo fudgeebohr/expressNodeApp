@@ -6,14 +6,10 @@ const TrackerSchema = new mongoose.Schema({
   totalMonths: { type: Number, required: true },
   paidMonths: { type: Number, default: 0 },
   platform: { 
-    type: String, 
-    enum: ['SPayLater', 'TikTok PayLater', 'GLoan'], 
-    default: 'SPayLater' 
+    type: String
   },
   payer: { 
-    type: String, 
-    enum: ['Kenneth', 'Joy', 'Shane', 'Group (Thesis)'], 
-    default: 'Kenneth' 
+    type: String
   },
   archived: { type: Boolean, default: false },
   dateCreated: { type: Date, default: Date.now }
