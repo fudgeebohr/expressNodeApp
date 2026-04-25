@@ -69,17 +69,21 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.put("/archive/:id", async (req, res) => { 
+router.put("/archive/:id", async (req, res) => {
   try {
     const { id } = req.params;
+
     const archivedRecord = await Tracker.findByIdAndUpdate(
       id,
       { archived: true },
       { new: true }
     );
 
-    if (!archivedRecord) return res.status(404).json({ message: "Record not found" });
-    res.json({ message: "Record deleted successfully", data: archivedRecord });
+    if (!archivedRecord) {
+      return res.status(404).json({ message: "Record not found" });
+    }
+
+    res.json({ message: "Deleted successfully", data: archivedRecord });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
